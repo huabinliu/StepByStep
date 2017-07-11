@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Net;
 using System.Net.Http;
+using System.Reflection;
 
 namespace LocalApi
 {
@@ -23,7 +24,19 @@ namespace LocalApi
 
         public static HttpResponseMessage InvokeAction(ActionDescriptor actionDescriptor)
         {
-            throw new NotImplementedException();
+            var controller = actionDescriptor.Controller;
+            var method = controller.GetType().GetMethod(actionDescriptor.ActionName, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+            if (method == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            try
+            {
+                return (HttpResponseMessage)method.Invoke(controller, null);
+            } catch
+            {
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
         }
 
         #endregion

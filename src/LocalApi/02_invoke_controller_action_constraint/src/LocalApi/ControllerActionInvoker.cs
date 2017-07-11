@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using LocalApi.MethodAttributes;
+using System.Linq;
 
 namespace LocalApi
 {
@@ -10,7 +13,10 @@ namespace LocalApi
         public static HttpResponseMessage InvokeAction(ActionDescriptor actionDescriptor)
         {
             MethodInfo method = GetAction(actionDescriptor);
-            if (method == null) { return new HttpResponseMessage(HttpStatusCode.NotFound); }
+            if (method == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
 
             HttpResponseMessage errorResponse = ProcessConstraint(method, actionDescriptor.MethodConstraint);
             if (errorResponse != null) { return errorResponse; }
@@ -35,7 +41,8 @@ namespace LocalApi
 
         static HttpResponseMessage ProcessConstraint(MethodInfo method, HttpMethod methodConstraint)
         {
-            return null;
+            return method.GetCustomAttributes().OfType<IMethodProvider>().Any(m => m.Method == methodConstraint) ?
+            null : new HttpResponseMessage(HttpStatusCode.MethodNotAllowed);
         }
 
         #endregion
