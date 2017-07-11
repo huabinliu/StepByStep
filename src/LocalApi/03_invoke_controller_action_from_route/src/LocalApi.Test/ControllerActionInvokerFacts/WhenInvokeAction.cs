@@ -29,6 +29,7 @@ namespace LocalApi.Test.ControllerActionInvokerFacts
             var matchedRoute = new HttpRoute(typeof(ControllerWithoutAction), "Get", HttpMethod.Get);
 
             var controllerTypeResolver = new DefaultHttpControllerTypeResolver();
+            var a = controllerTypeResolver.GetControllerTypes(new[] {Assembly.GetExecutingAssembly()});
             var resolver = new DefaultDependencyResolver(
                 controllerTypeResolver.GetControllerTypes(new[] { Assembly.GetExecutingAssembly() }));
             HttpResponseMessage response = ControllerActionInvoker.InvokeAction(
