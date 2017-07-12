@@ -42,7 +42,7 @@ namespace LocalApi
         static HttpResponseMessage ProcessConstraint(MethodInfo method, HttpMethod methodConstraint)
         {
             return method.GetCustomAttributes().OfType<IMethodProvider>().Any(m => m.Method == methodConstraint) ?
-            null : new HttpResponseMessage(HttpStatusCode.MethodNotAllowed);
+                null : new HttpResponseMessage(HttpStatusCode.MethodNotAllowed);
         }
 
         #endregion
