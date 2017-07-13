@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace LocalApi.Routing
 {
@@ -14,15 +16,39 @@ namespace LocalApi.Routing
 
         /*
          * You can add non-public helper method for help, but you cannot change public
-         * interfaces.
+         * interfaces. identifier
          */
 
         public HttpRoute(string controllerName, string actionName, HttpMethod methodConstraint, string uriTemplate)
         {
+            Verify(controllerName, actionName, methodConstraint);
             ControllerName = controllerName;
             ActionName = actionName;
             MethodConstraint = methodConstraint;
             UriTemplate = uriTemplate;
+        }
+
+        private void Verify(string controllerName, string actionName, HttpMethod methodConstraint)
+        {
+            if (controllerName == null)
+            {
+                throw new ArgumentNullException(nameof(controllerName));
+            }
+            if (actionName == null)
+            {
+                throw new ArgumentNullException(nameof(actionName));
+            }
+            if (methodConstraint == null)
+            {
+                throw new ArgumentNullException(nameof(methodConstraint));
+            }
+            using (var provider = CodeDomProvider.CreateProvider("C#"))
+            {
+                if (!provider.IsValidIdentifier(controllerName) || !provider.IsValidIdentifier(actionName))
+                {
+                    throw new ArgumentException();
+                }
+            }  
         }
 
         #endregion

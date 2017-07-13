@@ -17,15 +17,23 @@ namespace LocalApi
          * the public interfaces.
          */
 
+        readonly HttpConfiguration configuration;
+
         public HttpServer(HttpConfiguration configuration)
         {
-            throw new NotImplementedException();
+            this.configuration = configuration;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var matchedRoute = configuration.Routes.GetRouteData(request);
+            var response = matchedRoute == null
+                ? new HttpResponseMessage(HttpStatusCode.NotFound)
+                : ControllerActionInvoker.InvokeAction(matchedRoute, configuration.CachedControllerTypes,
+                    configuration.DependencyResolver, configuration.ControllerFactory);
+            return Task.FromResult(response);
+
         }
 
         #endregion
