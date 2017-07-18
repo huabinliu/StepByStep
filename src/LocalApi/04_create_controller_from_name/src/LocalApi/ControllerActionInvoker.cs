@@ -29,7 +29,8 @@ namespace LocalApi
             try
             {
                 controller = controllerFactory.CreateController(matchedRoute.ControllerName, controllerTypes, resolver);
-            } catch
+            }
+            catch
             {
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
@@ -37,8 +38,8 @@ namespace LocalApi
             {
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
-            return InvokeActionInternal(
-                new ActionDescriptor(controller, matchedRoute.ActionName, matchedRoute.MethodConstraint));
+            return InvokeActionInternal(new ActionDescriptor(controller, matchedRoute.ActionName,
+                matchedRoute.MethodConstraint));
 
             #endregion
         }

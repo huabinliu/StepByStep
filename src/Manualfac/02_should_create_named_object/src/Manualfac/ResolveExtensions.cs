@@ -1,5 +1,4 @@
-﻿using System;
-using Manualfac.Services;
+﻿using Manualfac.Services;
 
 namespace Manualfac
 {
@@ -15,9 +14,9 @@ namespace Manualfac
             this IComponentContext componentContext,
             string name)
         {
-            #region Please modify the code to pass the test
+            #region
 
-            throw new NotImplementedException();
+            return (T) componentContext.ResolveComponent(new TypedNameService(typeof(T), name));
 
             #endregion
         }

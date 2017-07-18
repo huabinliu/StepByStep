@@ -10,26 +10,42 @@ namespace Manualfac.Services
          * This class is used as a key for registration by both type and name.
          */
 
+        private readonly Type serviceType;
+        private readonly string name;
+
         public TypedNameService(Type serviceType, string name)
         {
-            throw new NotImplementedException();
+            this.serviceType = serviceType;
+            this.name = name;
         }
 
         public bool Equals(TypedNameService other)
         {
-            throw new NotImplementedException();
+            if (other == null)
+            {
+                return false;
+            }
+            return Equals(other.serviceType, serviceType) && string.Equals(other.name, name);
         }
 
         public override bool Equals(object obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+            return Equals((TypedNameService)obj);
         }
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return serviceType.GetHashCode() ^ name.GetHashCode();
         }
 
-        #endregion
-    }
+    #endregion
+}
 }
