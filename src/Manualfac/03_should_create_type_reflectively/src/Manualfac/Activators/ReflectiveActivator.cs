@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
+using Manualfac.Services;
 
 namespace Manualfac.Activators
 {
@@ -11,7 +14,7 @@ namespace Manualfac.Activators
             this.serviceType = serviceType;
         }
 
-        #region Please modify the following code to pass the test
+        #region
 
         /*
          * This method create instance via reflection. Try evaluating its parameters and
@@ -22,7 +25,15 @@ namespace Manualfac.Activators
 
         public object Activate(IComponentContext componentContext)
         {
-            throw new NotImplementedException();
+            var constructors = serviceType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+            if (constructors.Length != 1)
+            {
+                throw new DependencyResolutionException(nameof(serviceType));
+            }
+            var constructor = constructors[0];
+            var parameters = constructor.GetParameters()
+                .Select(p => componentContext.ResolveComponent(new TypedService(p.ParameterType))).ToArray();
+            return constructor.Invoke(parameters);
         }
 
         #endregion
