@@ -19,8 +19,8 @@ namespace LocalApi
              * then create instance from resolver.
              */
             var controllerType =
-                controllerTypes.Where(ct => ct.Name.Equals(controllerName, StringComparison.OrdinalIgnoreCase));
-            if (controllerType.Count() > 1)
+                controllerTypes.Where(ct => ct.Name.Equals(controllerName, StringComparison.OrdinalIgnoreCase)).ToArray();
+            if (controllerType.Length > 1)
             {
                 throw new ArgumentException();
             }

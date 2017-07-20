@@ -17,7 +17,7 @@ namespace Manualfac
              * implement the method.
              */
 
-            throw new NotImplementedException();
+            serviceInfos[registration.Service] = registration;
 
             #endregion
         }
@@ -31,7 +31,12 @@ namespace Manualfac
              */
 
             registration = null;
-            throw new NotImplementedException();
+            var containsKey = serviceInfos.ContainsKey(service);
+            if (containsKey)
+            {
+                registration = serviceInfos[service];
+            }
+            return containsKey;
 
             #endregion
         }
