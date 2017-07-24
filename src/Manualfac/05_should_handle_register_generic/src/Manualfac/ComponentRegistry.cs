@@ -31,7 +31,7 @@ namespace Manualfac
                 return true;
             }
 
-            #region Please implement the source query logic
+            #region
 
             /*
              * The following code will go through the source list and find the first source who
@@ -39,7 +39,14 @@ namespace Manualfac
              * return fasle. If we have found one. Then create a concrete component registration
              * and add it to serviceInfos for speed acceleration.
              */
-            throw new NotImplementedException();
+
+            registration = sources.Select(s => s.RegistrationFor(service)).FirstOrDefault(cr => cr != null);
+            if (registration == null)
+            {
+                return false;
+            }
+            Register(registration);
+            return true;
 
             #endregion
         }

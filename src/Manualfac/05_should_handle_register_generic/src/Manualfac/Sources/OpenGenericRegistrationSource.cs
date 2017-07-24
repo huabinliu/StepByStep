@@ -16,7 +16,7 @@ namespace Manualfac.Sources
 
         public ComponentRegistration RegistrationFor(Service service)
         {
-            #region Please implement the method to pass the test
+            #region
 
             /*
              * This source has 2 properties: the genericService is used as the key to match the
@@ -25,9 +25,22 @@ namespace Manualfac.Sources
              * 
              * This method will try matching the constructed service to an non-constructed 
              * generic type of genericService. If it is matched, then an concrete component
-             * registration needed wll be invoked.
+             * registration needed will be invoked.
              */
-            throw new NotImplementedException();
+
+            var swt = service as IServiceWithType;
+            if (swt == null)
+            {
+                return null;
+            }
+            var serviceType = swt.ServiceType;
+            if (!serviceType.IsGenericType || !serviceType.IsConstructedGenericType || !swt
+                    .ChangeType(serviceType.GetGenericTypeDefinition()).Equals(genericService))
+            {
+                return null;
+            }
+            var implementor = implementorType.MakeGenericType(serviceType.GenericTypeArguments);
+            return new ComponentRegistration(service, new ReflectiveActivator(implementor));
 
             #endregion
         }
