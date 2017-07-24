@@ -21,8 +21,11 @@ namespace Manualfac
              */
 
             if (service == null) { throw new ArgumentNullException(nameof(service)); }
-            ComponentRegistration componentRegistration = GetComponentRegistration(service);
-            return componentRegistration.Activator.Activate(this);
+            if (IsDisposed) { throw new ObjectDisposedException(nameof(service)); }
+            var componentRegistration = GetComponentRegistration(service);
+            var instance = componentRegistration.Activator.Activate(this);
+            disposer.AddItemsToDispose(instance);
+            return instance;
 
             #endregion
         }
@@ -36,7 +39,7 @@ namespace Manualfac
              * component registry.
              */
 
-            throw new NotImplementedException();
+            return new LifetimeScope(componentRegistry);
 
             #endregion
         }
