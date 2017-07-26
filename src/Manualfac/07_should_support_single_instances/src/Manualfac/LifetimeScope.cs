@@ -57,6 +57,8 @@ namespace Manualfac
 
             #region Please implement this method
 
+            if (registration == null) { throw new ArgumentNullException(nameof(registration)); }
+
             if (registration.Sharing == InstanceSharing.Shared && sharedInstances.ContainsKey(registration.Service))
             {
                 return sharedInstances[registration.Service];
