@@ -9,10 +9,11 @@ namespace Manualfac
             #region Please implement this method
 
             /*
-             * This class will always create and share instaces in root scope.
+             * This class will always create and share instances in root scope.
              */
 
-            throw new NotImplementedException();
+            if (mostNestedLifetimeScope == null) { throw new ArgumentNullException(nameof(mostNestedLifetimeScope));}
+            return mostNestedLifetimeScope.RootScope;
 
             #endregion
         }
