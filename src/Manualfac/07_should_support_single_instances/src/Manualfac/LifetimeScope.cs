@@ -25,7 +25,7 @@ namespace Manualfac
 
             #region Please initialize root scope
 
-            RootScope = parent ?? this;
+            RootScope = parent != null ? parent.RootScope : this;
 
             #endregion
         }
@@ -83,7 +83,7 @@ namespace Manualfac
              * Create a child life-time scope in this method.
              */
 
-            return new LifetimeScope(componentRegistry, RootScope);
+            return new LifetimeScope(componentRegistry, this);
 
             #endregion
         }
