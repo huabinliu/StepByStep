@@ -28,10 +28,9 @@ namespace Manualfac.LocalApiIntegration
 
         public object GetService(Type type)
         {
-//            object service;
-//            rootScope.TryResolve(type, out service);
-//            return service;
-            return null;
+            object service;
+            rootScope.TryResolve(type, out service);
+            return service;
         }
 
         public IDependencyScope BeginScope()
