@@ -99,21 +99,6 @@ namespace LocalApi
             {
                 return Task.FromException<HttpResponseMessage>(error);
             }
-            
-            /*
-            try
-            {
-                if (method.ReturnType == typeof(HttpResponseMessage))
-                {
-                    return Task.FromResult((HttpResponseMessage)method.Invoke(actionDescriptor.Controller, null));
-                }
-                return (Task<HttpResponseMessage>) method.Invoke(actionDescriptor.Controller, null);
-            }
-            catch
-            {
-                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.InternalServerError));
-            }
-            */
         }
 
         #endregion
